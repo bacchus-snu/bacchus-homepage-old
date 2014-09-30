@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block body_class %}body_{{board.name}}{% endblock %}
+
+{% block main %}
+<h2 class="section_title">{{ board.title }}</h2>
+
+<form id="article_remove_form" method="post" action=".">
+	
+	<h3>{{ article.name }}님의 {{ article.title }} 글을 삭제합니다.</h3>
+	{% csrf_token %}
+	{{ form.as_p }}
+	<p class="article_remove_button">
+		<input type="submit" value="Remove">
+	</p>
+</form>
+{% endblock %}

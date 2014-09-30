@@ -1,0 +1,62 @@
+<table class="zebra_horizontal">
+	<colgroup>
+		<col width="10%">
+		<col width="50%">
+		<col width="10%">
+		<col width="20%">
+		<col width="10%">
+	</colgroup>
+	<thead>
+		<tr>
+			<th>번호</th>
+			<th>제목</th>
+			<th>글쓴이</th>
+			<th>날짜</th>
+			<th>조회수</th>
+		</tr>
+	</thead>
+	<tbody>
+{% for article in articles %}
+		<tr>
+			<td>{{ article.id }}</td>
+			<td><a href="/board/show/{{ article.id }}/">{{ article.title }} [{{ article.comment_count }}]</a></td>
+			<td>{{ article.name }}</td>
+			<td>{{ article.created_datetime|date:"Y년 m월 d일" }}</td>
+			<td>{{ article.read_count }}</td>
+		</tr>
+{% endfor %}
+	</tbody>
+</table>
+
+{% if board.name == 'notice' or board.name == 'faq' %}
+	{% if is_bacchus %}
+<div class="board_write_button">
+	<a href="/board/{{board.name}}/write/">글쓰기</a>
+</div>
+	{% endif %}
+{% elif board.name|slice:":4" == 'qna_' %}
+	{% if member_id == '' %}
+<div class="board_write_button">
+	<a onClick="alert('로그인하세요.')">글쓰기</a>
+</div>
+	{% else %}
+<div class="board_write_button">
+	<a href="/board/{{board.name}}/write/">글쓰기</a>
+</div>
+	{% endif %}
+{% else %}
+<div class="board_write_button">
+	<a href="/board/{{board.name}}/write/">글쓰기</a>
+</div>
+{% endif %}
+<div class="board_page_list">
+{% for i in page_count_for_loop %}
+
+{% ifequal page_number i %}
+<a class="board_page" href="/{{board.name}}/{{ i }}/">[{{ i }}]</a>
+{% else %}
+<a class="board_page board_active_page" href="/{{board.name}}/{{ i }}/">[{{ i }}]</a>
+{% endifequal %}
+
+{% endfor %}
+</div>

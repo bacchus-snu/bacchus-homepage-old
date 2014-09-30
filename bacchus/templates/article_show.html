@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block body_class %}body_{{board.name}}{% endblock %}
+
+{% block main %}
+<h2 class="section_title">{{board.title}}</h2>
+<div id="content" class="content_full_width">
+	<div class="post">
+		<h3 class="post_title">
+			<a href="/articles/{{ article.id }}">{{ article.title }}</a>
+		</h3>
+		<div class="metadata">
+			<p class="post_date">{{ article.created_datetime|date:"Y년 m월 d일 H시 i분 s초" }}</p>
+			<p class="post_remove"><a href="/board/remove/{{ article.id }}/">삭제</a></p>
+		</div>
+		<p>
+		{{ article.content|linebreaks }}
+		</p>
+
+		<div class="separator"></div>
+		<div id="comments">
+			<h3 class="comments_head">댓글 {{ article.comment_count }}개</h3>
+			<ul id="comments_list">
+			{% for comment in comments %}
+				<li>
+					<div class="comment">
+						{% if comment.email %}
+						<a href="mailto:{{ comment.email }}" class="comment_author">{{ comment.name }}</a>
+						{% else %}
+						<span class="comment_author">{{ comment.name }}</span>
+						{% endif %}
+						<p class="comment_metadata">{{ comment.created_datetime }}</p>
+						<p class="comment_number">{{ forloop.counter }}</p>
+						<p class="comment_text">{{ comment.content|linebreaks }}</p>	
+					</div>
+				</li>
+			{% endfor %}
+			</ul>
+
+			<h3 class="comments_head">댓글 남기기</h3>
+			<p class="comment_info">*표가 있는 부분은 필수입니다.</p>
+												
+				<!-- Leave a comment box -->
+			<form id="comment_form" method="post" action="">
+				{% csrf_token %}
+				{{ form.as_p }}
+
+				<p>
+					<input type="submit" name="submit" id="form_submit" value="댓글 작성" />
+				</p>
+
+			</form>	
+
+
+		</div>
+	</div>
+</div>
+{% endblock %}

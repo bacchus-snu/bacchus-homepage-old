@@ -1,0 +1,14 @@
+{% for article in articles %}
+	<div class="post">
+		<h3 class="post_title">
+			<a href="/articles/{{ article.id }}">{{ article.title }}</a>
+		</h3>
+		<div class="metadata">
+			<p class="post_date">{{ article.created_datetime }}</p>
+			<a href="#" class="post_comments">{{ article.comment_count }} comments</a>
+		</div>
+		<p>
+		{{ article.content|linebreaks }}
+		</p>
+	</div>
+{% endfor %}

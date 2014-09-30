@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block style %}
+		 <link rel="stylesheet" href="/static/css/notice.css" type="text/css" media="screen" />
+{% endblock %}
+
+{% block body_class %}body_notice{% endblock %}
+
+{% block main %}
+<h2 class="section_title">Home</h2>
+<div id="content" class="content_full_width">
+	{% include "articles_show_content.html" %}
+</div>
+{% endblock %}
+

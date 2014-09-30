@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Bacchus Homepage :: {% block title %}Home{% endblock %}</title>
+
+		 <link rel="stylesheet" href="/static/css/styles.css" type="text/css" media="screen" />
+		  		  	
+		 <!--[if lte IE 8]>						
+		<link rel="stylesheet" href="/static/css/stylesIE.css" type="text/css" media="screen" />
+		<![endif]-->
+		
+		 <!--[if lte IE 7]>				
+		<link rel="stylesheet" href="/static/css/stylesIE7.css" type="text/css" media="screen" />
+		<![endif]-->
+
+{% block style %}
+{% endblock %}
+	</head>
+
+	<body class="{% block body_class %}{% endblock %}">
+		<div id="bg">
+			<img src="/static/images/background.jpg" alt="background">
+			<div class="grid"></div>
+		</div>
+		<div id="wrapper">
+			<div id="menu_wrap">
+				<div id="menu">
+					<div id="logo">
+						<h1><a href="/" class="logo_image">Logo</a></h1>
+					</div>
+					<ul id="navbar">
+						<li class="top_nav"><a href="/" id="home">Home<span>Back to the home page</span></a></li>
+						<li class="top_nav"><a href="/notice/" id="notice">Notice<span>Important things</span></a></li>
+						<li class="top_nav"><a href="/about/" id="about">About us<span>Who is Bacchus?</span></a></li>
+						<li class="top_nav">
+							<a id="services">Services<span>What we offer</span></a>
+							<ul>
+								<li><a id="services_terms" href="/services/terms/">Terms and conditions</a></li>
+								<li><a id="services_account" href="/services/account/">Account</a></li>
+								<li><a id="services_server" href="/services/server/">Servers</a></li>
+								<li><a id="services_lab" href="/services/lab/">Computer Labs</a></li>
+								<li><a id="services_printer" href="/services/printer/">Printers</a></li>
+								<li><a id="services_community" href="/services/community/">Community</a></li>
+							</ul>
+						</li>
+						<li class="top_nav"><a href="/faq/" id="faq">FAQ<span>Frequently asked questions</span></a></li>
+						<li class="top_nav">
+							<a id="qna">Q&amp;A<span>Question and Answers</span></a>
+							<ul>
+								<li><a id="qna_server" href="/qna/server/">Servers</a></li>
+								<li><a id="qna_lab" href="/qna/lab/">Computer Labs</a></li>
+								<li><a id="qna_printer" href="/qna/printer/">Printers</a></li>
+								<li><a id="qna_account" href="/qna/account/">Account/Login</a></li>
+							</ul>
+						</li>
+						<li class="top_nav">
+							<a href="/application/" id="application">Applications<span>Request something</span></a>
+							<ul>
+								<li><a id="application_db" href="/application/db/">DB Account</a></li>
+								<li><a id="application_licence" href="/application/licence/">Licences</a></li>
+								<li><a id="application_program" href="/application/program/">Programs</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+				<div id="hide_menu"></div>
+			</div>
+
+			<div id="main_wrap">
+				<div id="main">
+{% if member_id != '' %}
+<form action="/logout/" method="post">
+	Welcome! {{ member_id }}
+	<input type="submit" value="Logout">
+	{% csrf_token %}
+</form>
+{% else %}
+<form action="/login/" method="post">
+	Username : <input type="text" name="username">
+	Password : <input type="password" name="password">
+	<input type="submit" value="Login">
+	{% csrf_token %}
+</form>
+{% endif %}
+{% block main %}
+{% endblock %}
+				</div>
+			</div>
+			<div id="footer">
+				<div id="footer_info">
+					<p class="copyright">Bacchus</p>
+				</div>
+			</div>
+		</div>
+
+		<script src="/static/js/jquery-1.7.2.min.js" type="text/javascript"></script>
+		<script src="/static/js/cufon-yui.js" type="text/javascript"></script>
+		<script src="/static/js/PT_Sans.font.js" type="text/javascript"></script>
+		<script src="/static/js/PT_Sans_Narrow.font.js" type="text/javascript"></script>
+		<script src="/static/js/NanumGothic_400.font.js" type="text/javascript"></script>
+		<script src="/static/js/custom.js" type="text/javascript"></script>
+{% block script %}
+{% endblock %}
+
+	</body>
+</html>

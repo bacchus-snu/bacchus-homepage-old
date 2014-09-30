@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block body_class %}body_{{ board.name }}{% endblock %}
+
+{% block main %}
+<h2 class="section_title">{{ board.title }}</h2>
+<form id="article_form" method="post" action=".">
+	{% csrf_token %}
+	{{ form.as_p }}
+	<p class="article_submit_button">
+		<input type="submit" value="Write">
+	</p>
+</form>
+{% endblock %}

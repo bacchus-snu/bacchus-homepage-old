@@ -1,0 +1,63 @@
+.body_home #menu_wrap
+{margin: 0;}
+
+#menu_wrap
+{top: 0;
+position: fixed;
+margin: 0 0 0 -235px;
+}
+
+#navbar li.top_nav
+{padding: 6px 10px 11px 10px;
+z-index: 1000;}
+
+#main_wrap
+{z-index: 10;
+margin: 0 0 0 235px;
+background-color:transparent;}
+
+#navbar li ul
+{position: relative;
+top: -48px;
+left: 175px;
+z-index: 10000;
+}
+
+#main
+{overflow: hidden;}
+
+#content
+{margin-bottom: -40px;}
+
+#pagination
+{margin-top: 30px;}
+
+#navbar li ul li ul
+{position: absolute;
+z-index: 10000;
+top: -1px;}
+
+#flashcontent
+{height: 100%;
+margin: -20px 0 0 0;
+}
+
+#main h2.section_title
+{margin: 23px 0 40px 0;
+}
+
+.grid
+{position: fixed;
+zoom: 1;
+}
+
+.gallery_2columns 
+{overflow: hidden;
+margin: 0 0 20px -20px;	
+}
+
+.comment p.comment_number
+{display: none;}
+
+span.comment_error
+{width: 150px} 

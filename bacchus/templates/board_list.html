@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block body_class %}body_{{board.name}}{% endblock %}
+
+{% block main %}
+<h2 class="section_title">{{board.title}}</h2>
+<div id="content" class="content_full_width">
+	{% include "board_show.html" %}
+</div>
+{% endblock %}
