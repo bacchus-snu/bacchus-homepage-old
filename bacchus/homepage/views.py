@@ -19,25 +19,19 @@ import ldap
 from ad import login
 
 def home(request):
-	member_id = request.session.get('member_id', '')
-	if member_id != '':
-		return HttpResponseRedirect('/board/home/')
 	board = Board.objects.get(name='home')
 	articles = homepage.boards.get_latest_article(board,
 		article_per_page=homepage.const.ARTICLE_PER_PAGE_NOTICE)
-	variables = RequestContext(request, {'articles': articles, 'member_id': member_id})
+	username = request.session.get('username')
+	variables = RequestContext(request, {'articles': articles, 'username': username})
 	return render_to_response('home.html', variables)
 
 def home_pagination_view(request, page_number):
-	print 'asdf'
-	member_id = request.session.get('member_id', '')
-	print member_id
-	if member_id != '':
-		return HttpResponseRedirect('/board/home/%s/' % page_number)
 	board = Board.objects.get(name='home')
 	articles = homepage.boards.get_latest_article(board,
 		article_per_page=homepage.const.ARTICLE_PER_PAGE_NOTICE)
-	variables = RequestContext(request, {'articles': articles, 'member_id': member_id})
+	username = request.session.get('username')
+	variables = RequestContext(request, {'articles': articles, 'username': username})
 	return render_to_response('home.html', variables)
 
 def notice_view(request):
@@ -47,26 +41,39 @@ def notice_pagination_view(request, page_number):
 	return HttpResponseRedirect('/board/notice/%s/' % page_number)
 
 def about(request):
-	return render_to_response('about.html', RequestContext(request, {'member_id':request.session.get('member_id', '')}))
+	username = request.session.get('username')
+	return render_to_response('about.html', RequestContext(request, {'username':username}))
 
 # services
 def service_term(request):
-	return render_to_response('services_terms.html')
+        username = request.session.get('username')
+        return render_to_response('services_terms.html', RequestContext(request, {'username':username}))
 
 def service_account(request):
-	return render_to_response('services_account.html')
+        username = request.session.get('username')
+        return render_to_response('services_account.html', RequestContext(request, {'username':username}))
 
 def service_server(request):
-	return render_to_response('services_server.html')
+        username = request.session.get('username')
+        return render_to_response('services_server.html', RequestContext(request, {'username':username}))
 
 def service_lab(request):
-	return render_to_response('services_lab.html')
+        username = request.session.get('username')
+        return render_to_response('services_lab.html', RequestContext(request, {'username':username}))
 
+'''
+printer 구현해야함!!!!!!!
+'''
 def service_printer(request):
-	return render_to_response('home.html')
+        username = request.session.get('username')
+        return render_to_response('home.html', RequestContext(request, {'username':username}))
 
+'''
+community 구현해야함!!!!!!!
+'''
 def service_community(request):
-	return render_to_response('home.html')
+        username = request.session.get('username')
+        return render_to_response('home.html', RequestContext(request, {'username':username}))
 
 # faq
 def faq_view(request):
@@ -109,6 +116,7 @@ def login_view(request):
         password = request.POST.get("password")
         username = login(user_id, password)
         if username != False:
+            request.session['user_id'] = user_id
             request.session['username'] = username
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
@@ -118,11 +126,12 @@ def logout_view(request):
 
 # board 
 def board_write(request, board_name):
-	member_id = request.session.get('member_id', '')
-	if member_id == '':
+        user_id = request.session.get('user_id')
+        username = request.session.get('username')
+	if username == '':
 		return HttpResponseRedirect('/board/' + board_name + '/')
 	if board_name == 'notice' or board_name == 'faq':
-		if is_bacchus(member_id) == False:
+		if is_bacchus(user_id) == False:
 			return HttpResponseRedirect('/board/' + board_name + '/')
 	board = None
 	try:
@@ -151,7 +160,7 @@ def board_write(request, board_name):
 	else:
 		form = ArticleWriteForm(label_suffix='')
 
-	variables = RequestContext(request, {'form': form, 'board': board, 'member_id': request.session.get('member_id', '')})
+	variables = RequestContext(request, {'form': form, 'board': board, 'username': username})
 	return render_to_response('board_write.html', variables)
 
 def board_list(request, board_name, page_number=0):
@@ -165,15 +174,15 @@ def board_list(request, board_name, page_number=0):
 		/ homepage.const.ARTICLE_PER_PAGE_DEFAULT
 	), 1)
 
-	member_id = request.session.get('member_id', '')
-
+        user_id = request.session.get('user_id')
+        username = request.session.get('username')
 	variables = RequestContext(request, {
 		'board': board,
 		'articles': articles, 
 		'page_count_for_loop': xrange(1, page_count + 1), 
 		'page_number': homepage.boards.get_range_pagination(page_count, page_number),
-		'member_id': member_id,
-		'is_bacchus': is_bacchus(member_id)
+		'username': username,
+		'is_bacchus': is_bacchus(user_id)
 	})
 	return render_to_response('board_list.html', variables)
 
@@ -233,5 +242,5 @@ def article_remove(request, article_id):
 	
 	return render_to_response('article_remove.html', variables)
 
-def is_bacchus(id):
-	return id == "jsryu21"
+def is_bacchus(user_id):
+	return user_id == "jsryu21"
