@@ -69,22 +69,22 @@
 
 			<div id="main_wrap">
 				<div id="main">
-{% if member_id != '' %}
-<form action="/logout/" method="post">
-	Welcome! {{ member_id }}
-	<input type="submit" value="Logout">
-	{% csrf_token %}
-</form>
-{% else %}
-<form action="/login/" method="post">
-	Username : <input type="text" name="username">
-	Password : <input type="password" name="password">
-	<input type="submit" value="Login">
-	{% csrf_token %}
-</form>
-{% endif %}
-{% block main %}
-{% endblock %}
+                                    {% if username %}
+                                    <form action="/logout/" method="post">
+                                        환영합니다! {{ username }}님
+                                        <input type="submit" value="Logout">
+                                        {% csrf_token %}
+                                    </form>
+                                    {% else %}
+                                    <form action="/login/" method="post">
+                                        UserId : <input type="text" name="user_id">
+                                        Password : <input type="password" name="password">
+                                        <input type="submit" value="Login">
+                                        {% csrf_token %}
+                                    </form>
+                                    {% endif %}
+                                    {% block main %}
+                                    {% endblock %}
 				</div>
 			</div>
 			<div id="footer">

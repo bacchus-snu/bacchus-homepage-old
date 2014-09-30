@@ -16,6 +16,7 @@ import homepage.boards
 
 import base64
 import ldap
+from ad import login
 
 def home(request):
 	member_id = request.session.get('member_id', '')
@@ -103,17 +104,16 @@ def qna_account_pagination_view(request, page_number):
 	return HttpResponseRedirect('/board/qna_account/%s/' % page_number)
 
 def login_view(request):
-	if request.method == 'POST':
-		id = request.POST.get("username")
-		pw = request.POST.get("password")
-		if check_credentials(id, pw) == None:
-			request.session['member_id'] = id
-		else:
-			request.session['member_id'] = ''
-	return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    if request.method == 'POST':
+        user_id = request.POST.get("user_id")
+        password = request.POST.get("password")
+        username = login(user_id, password)
+        if username != False:
+            request.session['username'] = username
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def logout_view(request):
-	del request.session['member_id']
+	del request.session['username']
 	return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 # board 
@@ -235,27 +235,3 @@ def article_remove(request, article_id):
 
 def is_bacchus(id):
 	return id == "jsryu21"
-
-def check_credentials(username, password):
-	"""Verifies credentials for username and password.
-	Returns None on success or a string describing the error on failure
-	# Adapt to your needs
-	"""
-	LDAP_SERVER = 'ldap://colada.snucse.org'
-	# fully qualified AD user name
-	LDAP_USERNAME = '%s@snucse.org' % username
-	# your password
-	LDAP_PASSWORD = password
-	try:
-		# build a client
-		ldap_client = ldap.initialize(LDAP_SERVER)
-		# perform a synchronous bind
-		ldap_client.set_option(ldap.OPT_REFERRALS,0)
-		ldap_client.simple_bind_s(LDAP_USERNAME, LDAP_PASSWORD)
-	except ldap.INVALID_CREDENTIALS:
-		ldap_client.unbind()
-		return 'Wrong username ili password'
-	except ldap.SERVER_DOWN:
-		return 'AD server not awailable'
-	ldap_client.unbind()
-	return None
