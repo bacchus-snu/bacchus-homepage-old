@@ -19,96 +19,96 @@ import ldap
 from ad import login
 
 def home(request):
-	board = Board.objects.get(name='home')
-	articles = homepage.boards.get_latest_article(board,
-		article_per_page=homepage.const.ARTICLE_PER_PAGE_NOTICE)
-	username = request.session.get('username')
-	variables = RequestContext(request, {'articles': articles, 'username': username})
-	return render_to_response('home.html', variables)
+    board = Board.objects.get(name='home')
+    articles = homepage.boards.get_latest_article(board,
+            article_per_page=homepage.const.ARTICLE_PER_PAGE_NOTICE)
+    username = request.session.get('username')
+    variables = RequestContext(request, {'articles': articles, 'username': username})
+    return render_to_response('home.html', variables)
 
 def home_pagination_view(request, page_number):
-	board = Board.objects.get(name='home')
-	articles = homepage.boards.get_latest_article(board,
-		article_per_page=homepage.const.ARTICLE_PER_PAGE_NOTICE)
-	username = request.session.get('username')
-	variables = RequestContext(request, {'articles': articles, 'username': username})
-	return render_to_response('home.html', variables)
+    board = Board.objects.get(name='home')
+    articles = homepage.boards.get_latest_article(board,
+            article_per_page=homepage.const.ARTICLE_PER_PAGE_NOTICE)
+    username = request.session.get('username')
+    variables = RequestContext(request, {'articles': articles, 'username': username})
+    return render_to_response('home.html', variables)
 
 def notice_view(request):
-	return HttpResponseRedirect('/board/notice/')
+    return HttpResponseRedirect('/board/notice/')
 
 def notice_pagination_view(request, page_number):
-	return HttpResponseRedirect('/board/notice/%s/' % page_number)
+    return HttpResponseRedirect('/board/notice/%s/' % page_number)
 
 def about(request):
-	username = request.session.get('username')
-	return render_to_response('about.html', RequestContext(request, {'username':username}))
+    username = request.session.get('username')
+    return render_to_response('about.html', RequestContext(request, {'username':username}))
 
 # services
 def service_term(request):
-        username = request.session.get('username')
-        return render_to_response('services_terms.html', RequestContext(request, {'username':username}))
+    username = request.session.get('username')
+    return render_to_response('services_terms.html', RequestContext(request, {'username':username}))
 
 def service_account(request):
-        username = request.session.get('username')
-        return render_to_response('services_account.html', RequestContext(request, {'username':username}))
+    username = request.session.get('username')
+    return render_to_response('services_account.html', RequestContext(request, {'username':username}))
 
 def service_server(request):
-        username = request.session.get('username')
-        return render_to_response('services_server.html', RequestContext(request, {'username':username}))
+    username = request.session.get('username')
+    return render_to_response('services_server.html', RequestContext(request, {'username':username}))
 
 def service_lab(request):
-        username = request.session.get('username')
-        return render_to_response('services_lab.html', RequestContext(request, {'username':username}))
+    username = request.session.get('username')
+    return render_to_response('services_lab.html', RequestContext(request, {'username':username}))
 
 '''
 printer 구현해야함!!!!!!!
 '''
 def service_printer(request):
-        username = request.session.get('username')
-        return render_to_response('home.html', RequestContext(request, {'username':username}))
+    username = request.session.get('username')
+    return render_to_response('home.html', RequestContext(request, {'username':username}))
 
 '''
 community 구현해야함!!!!!!!
 '''
 def service_community(request):
-        username = request.session.get('username')
-        return render_to_response('home.html', RequestContext(request, {'username':username}))
+    username = request.session.get('username')
+    return render_to_response('home.html', RequestContext(request, {'username':username}))
 
 # faq
 def faq_view(request):
-	return HttpResponseRedirect('/board/faq/')
+    return HttpResponseRedirect('/board/faq/')
 
 def faq_pagination_view(request, page_number):
-	return HttpResponseRedirect('/board/faq/%s/' % page_number)
+    return HttpResponseRedirect('/board/faq/%s/' % page_number)
 
 # qna_server
 def qna_server_view(request):
-	return HttpResponseRedirect('/board/qna_server/')
+    return HttpResponseRedirect('/board/qna_server/')
 
 def qna_server_pagination_view(request, page_number):
-	return HttpResponseRedirect('/board/qna_server/%s/' % page_number)
+    return HttpResponseRedirect('/board/qna_server/%s/' % page_number)
 
 # qna_printer 
 def qna_printer_view(request):
-	return HttpResponseRedirect('/board/qna_printer/')
+    return HttpResponseRedirect('/board/qna_printer/')
 
 def qna_printer_pagination_view(request, page_number):
-	return HttpResponseRedirect('/board/qna_printer/%s/' % page_number)
+    return HttpResponseRedirect('/board/qna_printer/%s/' % page_number)
 
 # qna_lab
 def qna_lab_view(request):
-	return HttpResponseRedirect('/board/qna_lab/')
+    return HttpResponseRedirect('/board/qna_lab/')
 
 def qna_lab_pagination_view(request, page_number):
-	return HttpResponseRedirect('/board/qna_lab/%s/' % page_number)
+    return HttpResponseRedirect('/board/qna_lab/%s/' % page_number)
 
 # qna_account
 def qna_account_view(request):
-	return HttpResponseRedirect('/board/qna_account/')
+    return HttpResponseRedirect('/board/qna_account/')
 
 def qna_account_pagination_view(request, page_number):
-	return HttpResponseRedirect('/board/qna_account/%s/' % page_number)
+    return HttpResponseRedirect('/board/qna_account/%s/' % page_number)
 
 def login_view(request):
     if request.method == 'POST':
@@ -121,126 +121,126 @@ def login_view(request):
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def logout_view(request):
-	del request.session['username']
-	return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    del request.session['username']
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 # board 
 def board_write(request, board_name):
-        user_id = request.session.get('user_id')
-        username = request.session.get('username')
-	if username == '':
-		return HttpResponseRedirect('/board/' + board_name + '/')
-	if board_name == 'notice' or board_name == 'faq':
-		if is_bacchus(user_id) == False:
-			return HttpResponseRedirect('/board/' + board_name + '/')
-	board = None
-	try:
-		board = Board.objects.get(name=board_name)
-	except:
-		return HttpResponseRedirect('/')
+    user_id = request.session.get('user_id')
+    username = request.session.get('username')
+    if username == '':
+        return HttpResponseRedirect('/board/' + board_name + '/')
+    if board_name == 'notice' or board_name == 'faq':
+        if is_bacchus(user_id) == False:
+            return HttpResponseRedirect('/board/' + board_name + '/')
+    board = None
+    try:
+        board = Board.objects.get(name=board_name)
+    except:
+        return HttpResponseRedirect('/')
 
-	if request.method == 'POST':
-		form = ArticleWriteForm(request.POST, label_suffix='')
-		if form.is_valid():
-			secret = False
-			if 'is_secret' in form.cleaned_data: 
-				secret = True
+    if request.method == 'POST':
+        form = ArticleWriteForm(request.POST, label_suffix='')
+        if form.is_valid():
+            secret = False
+            if 'is_secret' in form.cleaned_data: 
+                secret = True
 
-			article = Article.objects.create(
-				board = board,
-				title = form.cleaned_data['title'],
-				content = form.cleaned_data['content'],
-				is_secret = secret,
-				name = form.cleaned_data['name'],
-				email = form.cleaned_data['email'],
-				homepage = form.cleaned_data['homepage'])
-			article.set_password(form.cleaned_data['password'])
-			article.save()
-			return board_list(request, board.name, 0)
-	else:
-		form = ArticleWriteForm(label_suffix='')
+            article = Article.objects.create(
+                    board = board,
+                    title = form.cleaned_data['title'],
+                    content = form.cleaned_data['content'],
+                    is_secret = secret,
+                    name = form.cleaned_data['name'],
+                    email = form.cleaned_data['email'],
+                    homepage = form.cleaned_data['homepage'])
+            article.set_password(form.cleaned_data['password'])
+            article.save()
+            return board_list(request, board.name, 0)
+    else:
+        form = ArticleWriteForm(label_suffix='')
 
-	variables = RequestContext(request, {'form': form, 'board': board, 'username': username})
-	return render_to_response('board_write.html', variables)
+    variables = RequestContext(request, {'form': form, 'board': board, 'username': username})
+    return render_to_response('board_write.html', variables)
 
 def board_list(request, board_name, page_number=0):
-	page_number = int(page_number)
+    page_number = int(page_number)
 
-	board = Board.objects.get(name=board_name)
-	articles = homepage.boards.get_latest_article(board)
+    board = Board.objects.get(name=board_name)
+    articles = homepage.boards.get_latest_article(board)
 
-	page_count = max(int(
-		(board.article_count + homepage.const.ARTICLE_PER_PAGE_DEFAULT - 1) 
-		/ homepage.const.ARTICLE_PER_PAGE_DEFAULT
-	), 1)
+    page_count = max(int(
+        (board.article_count + homepage.const.ARTICLE_PER_PAGE_DEFAULT - 1) 
+        / homepage.const.ARTICLE_PER_PAGE_DEFAULT
+        ), 1)
 
-        user_id = request.session.get('user_id')
-        username = request.session.get('username')
-	variables = RequestContext(request, {
-		'board': board,
-		'articles': articles, 
-		'page_count_for_loop': xrange(1, page_count + 1), 
-		'page_number': homepage.boards.get_range_pagination(page_count, page_number),
-		'username': username,
-		'is_bacchus': is_bacchus(user_id)
-	})
-	return render_to_response('board_list.html', variables)
+    user_id = request.session.get('user_id')
+    username = request.session.get('username')
+    variables = RequestContext(request, {
+        'board': board,
+        'articles': articles, 
+        'page_count_for_loop': xrange(1, page_count + 1), 
+        'page_number': homepage.boards.get_range_pagination(page_count, page_number),
+        'username': username,
+        'is_bacchus': is_bacchus(user_id)
+        })
+    return render_to_response('board_list.html', variables)
 
 def article_show(request, article_id):
-	article = Article.objects.get(id=article_id)
-	board = article.board
-	
-	article.read_count += 1
-	article.save()
+    article = Article.objects.get(id=article_id)
+    board = article.board
 
-	if request.method == 'POST':
-		form = CommentWriteForm(request.POST, label_suffix='')
-		if form.is_valid():
-			comment = Comment.objects.create(
-				article = article,
-				content = form.cleaned_data['content'],
-				name = form.cleaned_data['name'],
-				email = form.cleaned_data['email'])
-			comment.set_password(form.cleaned_data['password'])
-			comment.save()
+    article.read_count += 1
+    article.save()
 
-			article.comment_count += 1
-			article.save()
-			return HttpResponseRedirect('/board/show/%s/' % article_id)
-	else:
-		form = CommentWriteForm(label_suffix='')
+    if request.method == 'POST':
+        form = CommentWriteForm(request.POST, label_suffix='')
+        if form.is_valid():
+            comment = Comment.objects.create(
+                    article = article,
+                    content = form.cleaned_data['content'],
+                    name = form.cleaned_data['name'],
+                    email = form.cleaned_data['email'])
+            comment.set_password(form.cleaned_data['password'])
+            comment.save()
 
-	comments = Comment.objects.filter(article = article)
+            article.comment_count += 1
+            article.save()
+            return HttpResponseRedirect('/board/show/%s/' % article_id)
+    else:
+        form = CommentWriteForm(label_suffix='')
 
-	variables = RequestContext(request, {
-		'board': board,
-		'article': article,
-		'comments': comments,
-		'form': form,
-	})
-	
-	return render_to_response('article_show.html', variables)
+    comments = Comment.objects.filter(article = article)
+
+    variables = RequestContext(request, {
+        'board': board,
+        'article': article,
+        'comments': comments,
+        'form': form,
+        })
+
+    return render_to_response('article_show.html', variables)
 
 def article_remove(request, article_id):
-	article = Article.objects.get(id=article_id)
-	board = article.board
+    article = Article.objects.get(id=article_id)
+    board = article.board
 
-	if request.method == 'POST':
-		form = ArticleRemoveForm(request.POST, label_suffix='')
-		if form.is_valid():
-			if article.check_password(form.cleaned_data['password']):
-				article.delete()
-				return HttpResponseRedirect('/board/%s/' % board.name)
-	else:
-		form = ArticleRemoveForm(label_suffix='')
+    if request.method == 'POST':
+        form = ArticleRemoveForm(request.POST, label_suffix='')
+        if form.is_valid():
+            if article.check_password(form.cleaned_data['password']):
+                article.delete()
+                return HttpResponseRedirect('/board/%s/' % board.name)
+    else:
+        form = ArticleRemoveForm(label_suffix='')
 
-	variables = RequestContext(request, {
-		'board': board,
-		'article': article,
-		'form': form,
-	})
-	
-	return render_to_response('article_remove.html', variables)
+    variables = RequestContext(request, {
+        'board': board,
+        'article': article,
+        'form': form,
+        })
+
+    return render_to_response('article_remove.html', variables)
 
 def is_bacchus(user_id):
-	return user_id == "jsryu21"
+    return user_id == "jsryu21"

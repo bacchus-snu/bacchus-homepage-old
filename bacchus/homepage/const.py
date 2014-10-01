@@ -12,11 +12,11 @@ MEMBER_PROBATION = 4
 MEMBER_DISPATCHED = 5
 MEMBER_OB = 6
 MEMBER_TYPE = ( 
-	(MEMBER_HEAD, 'Head'),
-	(MEMBER_WEB, 'Web'),
-	(MEMBER_LINUX, 'Linux'),
-	(MEMBER_WINDOW, 'Window'),
-	(MEMBER_PROBATION, 'Probation'),
-	(MEMBER_DISPATCHED, 'Dispatched'),
-	(MEMBER_OB, 'OB'),
-)
+        (MEMBER_HEAD, 'Head'),
+        (MEMBER_WEB, 'Web'),
+        (MEMBER_LINUX, 'Linux'),
+        (MEMBER_WINDOW, 'Window'),
+        (MEMBER_PROBATION, 'Probation'),
+        (MEMBER_DISPATCHED, 'Dispatched'),
+        (MEMBER_OB, 'OB'),
+        )
