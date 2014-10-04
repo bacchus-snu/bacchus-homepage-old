@@ -162,8 +162,9 @@ def board_write(request, board_name):
     variables = RequestContext(request, {'form': form, 'board': board, 'username': username})
     return render_to_response('board_write.html', variables)
 
-def board_list(request, board_name, page_number=0):
+def board_list(request, board_name, page_number=1):
     page_number = int(page_number)
+    page_number -= 1
 
     board = Board.objects.get(name=board_name)
     articles = homepage.boards.get_latest_article(board, page_number)
@@ -210,12 +211,14 @@ def article_show(request, article_id):
         form = CommentWriteForm(label_suffix='')
 
     comments = Comment.objects.filter(article = article)
+    username = request.session.get('username')
 
     variables = RequestContext(request, {
         'board': board,
         'article': article,
         'comments': comments,
         'form': form,
+        'username': username
         })
 
     return render_to_response('article_show.html', variables)
@@ -233,10 +236,12 @@ def article_remove(request, article_id):
     else:
         form = ArticleRemoveForm(label_suffix='')
 
+    username = request.session.get('username')
     variables = RequestContext(request, {
         'board': board,
         'article': article,
         'form': form,
+        'username': username
         })
 
     return render_to_response('article_remove.html', variables)
