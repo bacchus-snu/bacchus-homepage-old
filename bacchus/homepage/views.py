@@ -19,20 +19,21 @@ import ldap
 from ad import login
 
 def home(request):
+    user_id = request.session.get('user_id')
+    if is_bacchus(user_id):
+        return HttpResponseRedirect('/board/home/')
     board = Board.objects.get(name='home')
-    articles = homepage.boards.get_latest_article(board,
-            article_per_page=homepage.const.ARTICLE_PER_PAGE_NOTICE)
+    articles = homepage.boards.get_latest_article(board)
+    if len(articles) > 0:
+        article = articles[0]
     username = request.session.get('username')
-    variables = RequestContext(request, {'articles': articles, 'username': username})
+    variables = RequestContext(request, {'article': article, 'username': username})
     return render_to_response('home.html', variables)
 
 def home_pagination_view(request, page_number):
-    board = Board.objects.get(name='home')
-    articles = homepage.boards.get_latest_article(board,
-            article_per_page=homepage.const.ARTICLE_PER_PAGE_NOTICE)
-    username = request.session.get('username')
-    variables = RequestContext(request, {'articles': articles, 'username': username})
-    return render_to_response('home.html', variables)
+    user_id = request.session.get('user_id')
+    if is_bacchus(user_id):
+        return HttpResponseRedirect('/board/home/%s/' % page_number)
 
 def notice_view(request):
     return HttpResponseRedirect('/board/notice/')
@@ -61,19 +62,13 @@ def service_lab(request):
     username = request.session.get('username')
     return render_to_response('services_lab.html', RequestContext(request, {'username':username}))
 
-'''
-printer 구현해야함!!!!!!!
-'''
 def service_printer(request):
     username = request.session.get('username')
-    return render_to_response('home.html', RequestContext(request, {'username':username}))
+    return render_to_response('services_printer.html', RequestContext(request, {'username':username}))
 
-'''
-community 구현해야함!!!!!!!
-'''
 def service_community(request):
     username = request.session.get('username')
-    return render_to_response('home.html', RequestContext(request, {'username':username}))
+    return render_to_response('services_community.html', RequestContext(request, {'username':username}))
 
 # faq
 def faq_view(request):
@@ -121,6 +116,7 @@ def login_view(request):
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def logout_view(request):
+    del request.session['user_id']
     del request.session['username']
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
@@ -128,9 +124,11 @@ def logout_view(request):
 def board_write(request, board_name):
     user_id = request.session.get('user_id')
     username = request.session.get('username')
-    if username == '':
+    # 로그인 안했으면 글쓰지 못하게
+    if user_id == False:
         return HttpResponseRedirect('/board/' + board_name + '/')
-    if board_name == 'notice' or board_name == 'faq':
+    # 특정 게시판은 바쿠스만 글쓰게
+    if board_name == 'home' or board_name == 'notice' or board_name == 'faq':
         if is_bacchus(user_id) == False:
             return HttpResponseRedirect('/board/' + board_name + '/')
     board = None
@@ -167,7 +165,7 @@ def board_list(request, board_name, page_number=0):
     page_number = int(page_number)
 
     board = Board.objects.get(name=board_name)
-    articles = homepage.boards.get_latest_article(board)
+    articles = homepage.boards.get_latest_article(board, page_number)
 
     page_count = max(int(
         (board.article_count + homepage.const.ARTICLE_PER_PAGE_DEFAULT - 1) 

@@ -314,7 +314,7 @@ margin: 0 0 0 240px;}
 #main
 {position: relative;
 width: 680px;
-padding: 0 40px 75px 40px;
+padding: 20px 40px 75px 40px;
 font: normal 12px Verdana, Arial, sans-serif;
 line-height: 20px;
 display: inline-block;
@@ -635,7 +635,7 @@ right: 10px;
 text-decoration: none;
 color: #9e9e9e;
 padding: 0 0 0 25px;
-background: url(../images/comment.png) no-repeat left -1px;
+background: no-repeat left -1px;
 display: block;}
 
 .post .metadata a:hover

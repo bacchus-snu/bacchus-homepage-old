@@ -1,0 +1,10 @@
+{% if article %}
+<div class="post">
+    <div class="metadata">
+        <p class="post_date">{{ article.created_datetime }}</p>
+    </div>
+    <p>
+    {{ article.content|linebreaks }}
+    </p>
+</div>
+{% endif %}
