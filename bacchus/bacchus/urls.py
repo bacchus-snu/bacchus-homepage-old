@@ -7,7 +7,8 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
 	(r'^$', home),
-	(r'^board/home/(\d+)/$', home_pagination_view),
+	(r'^home/$', home),
+	(r'^home/(\d+)/$', home_pagination_view),
 	(r'^notice/$', notice_view),
 	(r'^notice/(\d+)/$', notice_pagination_view),
 	(r'^about/$', about),

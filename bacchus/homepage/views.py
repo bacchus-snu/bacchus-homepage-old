@@ -26,14 +26,15 @@ def home(request):
     articles = homepage.boards.get_latest_article(board)
     if len(articles) > 0:
         article = articles[0]
-    username = request.session.get('username')
-    variables = RequestContext(request, {'article': article, 'username': username})
-    return render_to_response('home.html', variables)
+        username = request.session.get('username')
+        variables = RequestContext(request, {'article': article, 'username': username})
+        return render_to_response('home.html', variables)
 
 def home_pagination_view(request, page_number):
     user_id = request.session.get('user_id')
     if is_bacchus(user_id):
         return HttpResponseRedirect('/board/home/%s/' % page_number)
+    return HttpResponseRedirect('/home/')
 
 def notice_view(request):
     return HttpResponseRedirect('/board/notice/')
