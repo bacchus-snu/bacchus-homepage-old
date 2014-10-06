@@ -29,6 +29,10 @@ def home(request):
         username = request.session.get('username')
         variables = RequestContext(request, {'article': article, 'username': username})
         return render_to_response('home.html', variables)
+    else:
+        username = request.session.get('username')
+        variables = RequestContext(request, {'username': username})
+        return render_to_response('home.html', variables)
 
 def home_pagination_view(request, page_number):
     user_id = request.session.get('user_id')
