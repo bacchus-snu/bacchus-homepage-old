@@ -28,26 +28,32 @@
 	</tbody>
 </table>
 
-{% if board.name == 'notice' or board.name == 'faq' %}
-	{% if is_bacchus %}
-<div class="board_write_button">
-	<a href="/board/{{board.name}}/write/">글쓰기</a>
-</div>
-	{% endif %}
+{% if board.name == "home" or board.name == "notice" or board.name == "faq" %}
+    {% if is_bacchus %}
+        <div class="board_write_button">
+            <a href="/board/{{board.name}}/write/">글쓰기</a>
+        </div>
+    {% endif %}
 {% elif board.name|slice:":4" == 'qna_' %}
-	{% if member_id == '' %}
-<div class="board_write_button">
-	<a onClick="alert('로그인하세요.')">글쓰기</a>
-</div>
-	{% else %}
-<div class="board_write_button">
-	<a href="/board/{{board.name}}/write/">글쓰기</a>
-</div>
-	{% endif %}
+    {% if username %}
+        <div class="board_write_button">
+            <a href="/board/{{board.name}}/write/">글쓰기</a>
+        </div>
+    {% else %}
+        <div class="board_write_button">
+            <a onClick="alert('로그인하세요.')">글쓰기</a>
+        </div>
+    {% endif %}
 {% else %}
-<div class="board_write_button">
-	<a href="/board/{{board.name}}/write/">글쓰기</a>
-</div>
+    {% if username %}
+        <div class="board_write_button">
+            <a href="/board/{{board.name}}/write/">글쓰기</a>
+        </div>
+    {% else %}
+        <div class="board_write_button">
+            <a onClick="alert('로그인하세요.')">글쓰기</a>
+        </div>
+    {% endif %}
 {% endif %}
 <div class="board_page_list">
 {% for i in page_count_for_loop %}
