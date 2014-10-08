@@ -251,4 +251,10 @@ def article_remove(request, article_id):
     return render_to_response('article_remove.html', variables)
 
 def is_bacchus(user_id):
-    return user_id == "jsryu21"
+    if user_id == "jsryu21" or user_id == "y975y9200" or user_id == "wookayin" or user_id == "shuin318" \
+	or user_id == "littlechun4" or user_id == "kqqk1234" or user_id == "gwolves" or user_id == "holys0210" \
+	or user_id == "kcm1700" or user_id == "bert1234" or user_id == "vs223" or user_id == "a9413" \
+	or user_id == "veckal" or user_id == "sunbi9339":
+        return True
+    else:
+        return False
