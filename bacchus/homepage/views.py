@@ -252,4 +252,6 @@ def article_remove(request, article_id):
     return render_to_response('article_remove.html', variables)
 
 def is_bacchus(user_id):
-    return user_id == "jsryu21"
+    bacchus = ["jsryu21", "y975y9200", "wookayin", "shuin318", "littlechun4", "kqqk1234", "gwolves", "holys0210", \
+	"kcm1700", "bert1234", "vs223", "a9413", "veckal", "sunbi9339"]
+    return user_id in bacchus 
