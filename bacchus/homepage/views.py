@@ -170,6 +170,9 @@ def board_write(request, board_name):
     return render_to_response('board_write.html', variables)
 
 def board_list(request, board_name, page_number=1):
+    user_id = request.session.get('user_id')
+    if board_name == 'home' and not is_bacchus(user_id):
+        return HttpResponseRedirect('/home')
     page_number = int(page_number)
     page_number -= 1
 
@@ -181,7 +184,6 @@ def board_list(request, board_name, page_number=1):
         / homepage.const.ARTICLE_PER_PAGE_DEFAULT
         ), 1)
 
-    user_id = request.session.get('user_id')
     username = request.session.get('username')
     variables = RequestContext(request, {
         'board': board,
