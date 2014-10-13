@@ -151,15 +151,17 @@ def board_write(request, board_name):
 
             article = Article.objects.create(
                     board = board,
+                    user_id = user_id,
+                    username = username,
                     title = form.cleaned_data['title'],
                     content = form.cleaned_data['content'],
                     is_secret = secret,
-                    name = form.cleaned_data['name'],
                     email = form.cleaned_data['email'],
                     homepage = form.cleaned_data['homepage'])
-            article.set_password(form.cleaned_data['password'])
             article.save()
-            return board_list(request, board.name, 0)
+
+            # 글을 쓰고 보내기 때문에 board_list의 마지막 parameter를 1로 보냄.
+            return board_list(request, board.name, 1)
     else:
         form = ArticleWriteForm(label_suffix='')
 

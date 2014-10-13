@@ -2,8 +2,10 @@ from django import forms
 
 
 class ArticleWriteForm(forms.Form):
+    """
     name = forms.CharField(max_length=32, label="Name")
     password = forms.CharField(widget=forms.PasswordInput, label="Password")
+    """
     email = forms.CharField(max_length=256, required=False, label="E-Mail")
     homepage = forms.CharField(max_length=256, required=False, label="Homepage")
     is_secret = forms.BooleanField(required=False, label="Secret?")

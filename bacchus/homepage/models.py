@@ -43,16 +43,17 @@ class Article(models.Model):
     # is_verify_user = models.BooleanField(default=False)
 
     # User Info
-    name = models.CharField(max_length=64, null=True)
-    password = models.CharField(max_length=128, null=True)
+    username = models.CharField(max_length=64)
+    user_id = models.CharField(max_length=64)
     email = models.CharField(max_length=256, null=True, blank=True)
     homepage = models.CharField(max_length=256, null=True, blank=True)
 
-    def set_password(self, raw_password):
-        self.password = make_password(raw_password)
+    # Deprecated
+    # def set_password(self, raw_password):
+    #    self.password = make_password(raw_password)
 
-    def check_password(self, raw_password):
-        return check_password(raw_password, self.password)
+    # def check_password(self, raw_password):
+    #    return check_password(raw_password, self.password)
 
 class Comment(models.Model):
     article = models.ForeignKey(Article)
