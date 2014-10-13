@@ -45,7 +45,7 @@ class Article(models.Model):
     # User Info
     username = models.CharField(max_length=64)
     user_id = models.CharField(max_length=64)
-    email = models.CharField(max_length=256, null=True, blank=True)
+    email = models.CharField(max_length=256, null=True)
     homepage = models.CharField(max_length=256, null=True, blank=True)
 
     # Deprecated

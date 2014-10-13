@@ -130,7 +130,8 @@ def board_write(request, board_name):
     user_id = request.session.get('user_id')
     username = request.session.get('username')
     # 로그인 안했으면 글쓰지 못하게
-    if user_id == False:
+    if user_id == None or user_id == False \
+            or username == None or username == False:
         return HttpResponseRedirect('/board/' + board_name + '/')
     # 특정 게시판은 바쿠스만 글쓰게
     if board_name == 'home' or board_name == 'notice' or board_name == 'faq':
@@ -253,4 +254,6 @@ def article_remove(request, article_id):
     return render_to_response('article_remove.html', variables)
 
 def is_bacchus(user_id):
-    return user_id == "jsryu21"
+    bacchus = ["jsryu21", "y975y9200", "wookayin", "shuin318", "littlechun4", "kqqk1234", "gwolves", "holys0210", \
+	"kcm1700", "bert1234", "vs223", "a9413", "veckal", "sunbi9339"]
+    return user_id in bacchus 
