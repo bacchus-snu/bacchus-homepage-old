@@ -130,7 +130,8 @@ def board_write(request, board_name):
     user_id = request.session.get('user_id')
     username = request.session.get('username')
     # 로그인 안했으면 글쓰지 못하게
-    if user_id == False:
+    if user_id == None or user_id == False \
+            or username == None or username == False:
         return HttpResponseRedirect('/board/' + board_name + '/')
     # 특정 게시판은 바쿠스만 글쓰게
     if board_name == 'home' or board_name == 'notice' or board_name == 'faq':
