@@ -123,10 +123,6 @@ def logout_view(request):
 # board 
 def board_write(request, board_name):
     username, user_id, bs_year = Oauth.Instance().get_bs_class_year()
-    # 로그인 안했으면 글쓰지 못하게
-    if user_id == None or user_id == False \
-            or username == None or username == False:
-        return HttpResponseRedirect('/board/' + board_name + '/')
     # 특정 게시판은 바쿠스만 글쓰게
     if board_name == 'home' or board_name == 'notice' or board_name == 'faq':
         if is_bacchus(user_id) == False:
@@ -136,29 +132,46 @@ def board_write(request, board_name):
         board = Board.objects.get(name=board_name)
     except:
         return HttpResponseRedirect('/')
-
+    # 로그인 안했으면 글쓰지 못하게
+    # 로그인 안했어도 Q&A_ACCOUNT는 글쓸 수 있게
+    if username is None and board_name != 'qna_account':
+        return HttpResponseRedirect('/board/' + board_name + '/')
     if request.method == 'POST':
-        form = ArticleWriteForm(request.POST, label_suffix='')
+        if username is None and board_name == 'qna_account':
+            form = AccountArticleWriteForm(request.POST, label_suffix='')
+        else:
+            form = ArticleWriteForm(request.POST, label_suffix='')
         if form.is_valid():
-            secret = False
-            if 'is_secret' in form.cleaned_data: 
-                secret = True
-
-            article = Article.objects.create(
-                    board = board,
-                    user_id = user_id,
-                    username = username,
-                    title = form.cleaned_data['title'],
-                    content = form.cleaned_data['content'],
-                    is_secret = secret,
-                    email = form.cleaned_data['email'],
-                    homepage = form.cleaned_data['homepage'])
+            if username is None and board_name == 'qna_account':
+                article = Article.objects.create(
+                        board = board,
+                        username = form.cleaned_data['name'],
+                        bs_year = form.cleaned_data['year'],
+                        title = form.cleaned_data['title'],
+                        content = form.cleaned_data['content'],
+                        email = form.cleaned_data['email'],
+                        homepage = form.cleaned_data['homepage'])
+                article.set_password(form.cleaned_data['password'])
+            else:
+                article = Article.objects.create(
+                        board = board,
+                        user_id = user_id,
+                        username = username,
+                        bs_year = bs_year,
+                        title = form.cleaned_data['title'],
+                        content = form.cleaned_data['content'],
+                        is_secret = 'is_secret' in form.cleaned_data,
+                        email = form.cleaned_data['email'],
+                        homepage = form.cleaned_data['homepage'])
             article.save()
 
             # 글을 쓰고 보내기 때문에 board_list의 마지막 parameter를 1로 보냄.
             return board_list(request, board.name, 1)
     else:
-        form = ArticleWriteForm(label_suffix='')
+        if username is None and board_name == 'qna_account':
+            form = AccountArticleWriteForm(label_suffix='')
+        else:
+            form = ArticleWriteForm(label_suffix='')
 
     variables = RequestContext(request, {'form': form, 'board': board, 'username': username})
     return render_to_response('board_write.html', variables)

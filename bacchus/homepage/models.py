@@ -37,23 +37,20 @@ class Article(models.Model):
     modified_datetime = models.DateTimeField(auto_now_add=True)
     is_secret = models.BooleanField(default=False)
     content = models.TextField(default='')
-
-    # Deprecated
-    # user = models.ForeignKey(User, null=True, blank=True)
-    # is_verify_user = models.BooleanField(default=False)
-
     # User Info
     username = models.CharField(max_length=64)
-    user_id = models.CharField(max_length=64)
-    email = models.CharField(max_length=256, null=True)
-    homepage = models.CharField(max_length=256, null=True, blank=True)
+    user_id = models.CharField(max_length=64, blank=True)
+    bs_year = models.IntegerField(blank=True)
+    password = models.CharField(max_length=128, blank=True)
+    email = models.CharField(max_length=256, blank=True)
+    homepage = models.CharField(max_length=256, blank=True)
 
-    # Deprecated
-    # def set_password(self, raw_password):
-    #    self.password = make_password(raw_password)
+    def set_password(self, raw_password):
+        self.password = make_password(raw_password)
+        
+    def check_password(self, raw_password):
+        return check_password(raw_password, self.password)
 
-    # def check_password(self, raw_password):
-    #    return check_password(raw_password, self.password)
 
 class Comment(models.Model):
     article = models.ForeignKey(Article)

@@ -34,18 +34,8 @@
             <a href="/board/{{board.name}}/write/">글쓰기</a>
         </div>
     {% endif %}
-{% elif board.name|slice:":4" == 'qna_' %}
-    {% if username %}
-        <div class="board_write_button">
-            <a href="/board/{{board.name}}/write/">글쓰기</a>
-        </div>
-    {% else %}
-        <div class="board_write_button">
-            <a onClick="alert_login()">글쓰기</a>
-        </div>
-    {% endif %}
 {% else %}
-    {% if username %}
+    {% if username or board.name == 'qna_account' %}
         <div class="board_write_button">
             <a href="/board/{{board.name}}/write/">글쓰기</a>
         </div>
