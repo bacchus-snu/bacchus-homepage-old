@@ -77,9 +77,9 @@
                     </form>
                     {% else %}
                     <form action="/login/" method="post">
-                        User Id : <input type="text" name="user_id">
-                        Password : <input type="password" name="password">
-                        <input type="submit" value="Login">
+                        아래 로고를 클릭하여 SNUCSE 계정으로 로그인하세요.<br />
+                        <input type="image" src="/static/images/SNUCSE.png" alt="Login" /><br />
+                        SNUCSE 계정이 없는 컴퓨터공학부 구성원은 <a href="https://www.snucse.org/Account/?lang=ko-KR">이곳을 클릭하여 계정을 만드세요</a>.
                         {% csrf_token %}
                     </form>
                     {% endif %}
