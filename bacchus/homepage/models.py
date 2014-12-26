@@ -40,9 +40,9 @@ class Article(models.Model):
     # User Info
     username = models.CharField(max_length=64)
     user_id = models.CharField(max_length=64, blank=True)
-    bs_year = models.IntegerField(blank=True)
+    bs_year = models.IntegerField()
     password = models.CharField(max_length=128, blank=True)
-    email = models.CharField(max_length=256, blank=True)
+    email = models.CharField(max_length=256)
     homepage = models.CharField(max_length=256, blank=True)
 
     def set_password(self, raw_password):
