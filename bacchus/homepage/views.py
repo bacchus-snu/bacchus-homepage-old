@@ -257,7 +257,7 @@ def article_remove(request, article_id):
             else:
                 article.delete()
         else:
-            form = AccountArticleRemoveForm(request.POST, label_suffix='')
+            form = ArticleRemoveForm(request.POST, label_suffix='')
             if form.is_valid() == False:
                 pass
             elif article.check_password(form.cleaned_data['password']):
@@ -268,9 +268,9 @@ def article_remove(request, article_id):
             if article.user_id != user_id:
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
             else:
-                form = ArticleRemoveForm(label_suffix='')
+                form = None
         else:
-            form = AccountArticleRemoveForm(label_suffix='')
+            form = ArticleRemoveForm(label_suffix='')
 
     variables = RequestContext(request, {
         'board': board,
