@@ -207,16 +207,24 @@ def article_show(request, article_id):
 
     article.read_count += 1
     article.save()
+    username, user_id, bs_year = Oauth.Instance().get_bs_class_year()
 
     if request.method == 'POST':
+        if username is None:
+            return HttpResponseRedirect('/board/show/%s/' % article_id)
+        elif user_id is None:
+            return HttpResponseRedirect('/board/show/%s/' % article_id)
+        elif bs_year is None:
+            return HttpResponseRedirect('/board/show/%s/' % article_id)
         form = CommentWriteForm(request.POST, label_suffix='')
         if form.is_valid():
             comment = Comment.objects.create(
                     article = article,
                     content = form.cleaned_data['content'],
-                    name = form.cleaned_data['name'],
+                    name = username,
+                    user_id = user_id,
+                    bs_year = bs_year,
                     email = form.cleaned_data['email'])
-            comment.set_password(form.cleaned_data['password'])
             comment.save()
 
             article.comment_count += 1
@@ -226,7 +234,6 @@ def article_show(request, article_id):
         form = CommentWriteForm(label_suffix='')
 
     comments = Comment.objects.filter(article = article)
-    username, user_id, bs_year = Oauth.Instance().get_bs_class_year()
 
     variables = RequestContext(request, {
         'board': board,
