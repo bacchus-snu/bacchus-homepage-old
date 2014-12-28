@@ -1977,6 +1977,10 @@ a.board_active_page {
 	width: 660px;
 }
 
+p.article_info
+{font-size: 11px;
+margin: 10px 0 20px;
+}
 
 #comments .comment p.comment_number {
 	font-family: Verdana, Arial, sans-serif;

@@ -4,7 +4,7 @@
 
 {% block main %}
 <h2 class="section_title">{{ board.title }}</h2>
-<p class="comment_info">*표가 있는 부분은 필수입니다.</p>
+<p class="article_info">*표가 있는 부분은 필수입니다.</p>
 <form id="article_form" method="post" action=".">
 	{% csrf_token %}
 	{{ form.as_p }}
