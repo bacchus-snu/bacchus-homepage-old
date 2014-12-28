@@ -7,7 +7,7 @@
 
 <form id="article_remove_form" method="post" action=".">
 	
-	<h3>{{ article.name }}님의 {{ article.title }} 글을 삭제합니다.</h3>
+	<h3>{{ article.username }}님의 {{ article.title }} 글을 삭제합니다.</h3>
 	{% csrf_token %}
 	{{ form.as_p }}
 	<p class="article_remove_button">

@@ -16,8 +16,11 @@ class ArticleWriteForm(forms.Form):
     title = forms.CharField(max_length=256, label="Title*")
     content = forms.CharField(widget=forms.Textarea(), label="Content*")
 
-class ArticleRemoveForm(forms.Form):
+class AccountArticleRemoveForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput, label="Password*")
+
+class ArticleRemoveForm(forms.Form):
+    pass
 
 class CommentWriteForm(forms.Form):
     name = forms.CharField(max_length=32, label="Name*")

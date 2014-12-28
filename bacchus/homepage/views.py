@@ -241,17 +241,30 @@ def article_show(request, article_id):
 def article_remove(request, article_id):
     article = Article.objects.get(id=article_id)
     board = article.board
+    username, user_id, bs_year = Oauth.Instance().get_bs_class_year()
 
     if request.method == 'POST':
-        form = ArticleRemoveForm(request.POST, label_suffix='')
-        if form.is_valid():
-            if article.check_password(form.cleaned_data['password']):
+        if article.user_id is not None and article.user_id != '':
+            if article.user_id != user_id:
+                pass
+            else:
                 article.delete()
-                return HttpResponseRedirect('/board/%s/' % board.name)
+        else:
+            form = AccountArticleRemoveForm(request.POST, label_suffix='')
+            if form.is_valid() == False:
+                pass
+            elif article.check_password(form.cleaned_data['password']):
+                article.delete()
+        return HttpResponseRedirect('/board/%s/' % board.name)
     else:
-        form = ArticleRemoveForm(label_suffix='')
+        if article.user_id is not None and article.user_id != '':
+            if article.user_id != user_id:
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+            else:
+                form = ArticleRemoveForm(label_suffix='')
+        else:
+            form = AccountArticleRemoveForm(label_suffix='')
 
-    username, user_id, bs_year = Oauth.Instance().get_bs_class_year()
     variables = RequestContext(request, {
         'board': board,
         'article': article,
