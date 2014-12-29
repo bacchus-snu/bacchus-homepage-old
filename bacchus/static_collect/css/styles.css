@@ -1944,6 +1944,7 @@ html { overflow-y: scroll; }
 #ServiceAccount h3,
 #ServiceServer h3,
 #ServiceLab h3,
+#About h3,
 #main .post h3.post_title a,
 #main .post h3.comments_head,
 #main {
@@ -1977,6 +1978,10 @@ a.board_active_page {
 	width: 660px;
 }
 
+p.article_info
+{font-size: 11px;
+margin: 10px 0 20px;
+}
 
 #comments .comment p.comment_number {
 	font-family: Verdana, Arial, sans-serif;
@@ -2038,7 +2043,8 @@ body.body_qna_account a#qna_account {
 #ServiceTerm p, 
 #ServiceAccount p,
 #ServiceServer p,
-#ServiceLab p {
+#ServiceLab p,
+#About p {
 	margin-left: .5em;
 	text-indent: 1em;
 }
@@ -2048,7 +2054,8 @@ body.body_qna_account a#qna_account {
 #ServiceAccount ol,
 #ServiceServer ul,
 #ServiceLab ul,
-#ServiceLab ol {
+#ServiceLab ol,
+#About ul {
 	margin: .5em 0 .5em 3em;
 }
 #ServiceTerm ol ol,
@@ -2056,7 +2063,8 @@ body.body_qna_account a#qna_account {
 #ServiceAccount ul ul,
 #ServiceServer ul ul,
 #ServiceLab ol ol ,
-#ServiceLab ul ul {
+#ServiceLab ul ul,
+#About ul ul {
 	margin: 1em 0 1em 2em;
 }
 
