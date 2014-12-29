@@ -1940,6 +1940,7 @@ margin: 0;
 
 html { overflow-y: scroll; }
 
+#ServicePrinter h3,
 #ServiceTerm h3,
 #ServiceAccount h3,
 #ServiceServer h3,
@@ -2039,6 +2040,7 @@ body.body_qna_account a#qna_account {
 	height: 1.5em;
 }
 
+#ServicePrinter p,
 #ServiceTerm p, 
 #ServiceAccount p,
 #ServiceServer p,
@@ -2046,6 +2048,8 @@ body.body_qna_account a#qna_account {
 	margin-left: .5em;
 	text-indent: 1em;
 }
+
+#ServicePrinter
 #ServiceTerm ol,
 #ServiceTerm ul,
 #ServiceAccount ul, 
@@ -2055,6 +2059,9 @@ body.body_qna_account a#qna_account {
 #ServiceLab ol {
 	margin: .5em 0 .5em 3em;
 }
+
+#ServicePrinter ol ol,
+#ServicePrinter ul, ul,
 #ServiceTerm ol ol,
 #ServiceAccount ol ol,
 #ServiceAccount ul ul,
