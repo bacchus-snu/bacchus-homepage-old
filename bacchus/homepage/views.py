@@ -172,7 +172,7 @@ def board_write(request, board_name):
             article_url = "{0}/show/{1}".format("/".join(request.build_absolute_uri().split('/')[:-3]), str(article.id))
             link = u"Link : {0}".format(article_url)
             message = u"{0}\n\n{1}\n\n{2}".format(content, user, link)
-            send_mail(subject, message, settings.EMAIL_HOST_USER, [settings.DEFAULT_TO_EMAIL], fail_silently = False)
+            send_mail(subject, message, settings.EMAIL_HOST_USER, [settings.DEFAULT_FROM_EMAIL], fail_silently = False)
             # 글을 쓰고 보내기 때문에 board_list의 마지막 parameter를 1로 보냄.
             return board_list(request, board.name, 1)
     else:
@@ -245,7 +245,7 @@ def article_show(request, article_id):
             article_url = request.build_absolute_uri()
             link = u"Link : {0}".format(article_url)
             message = u"{0}\n\n{1}\n\n{2}\n\n{3}\n\n{4}".format(content, user, comment_content, comment_user, link)
-            send_mail(subject, message, settings.EMAIL_HOST_USER, [settings.DEFAULT_TO_EMAIL], fail_silently = False)
+            send_mail(subject, message, settings.EMAIL_HOST_USER, [settings.DEFAULT_FROM_EMAIL], fail_silently = False)
             return HttpResponseRedirect('/board/show/%s/' % article_id)
     else:
         form = CommentWriteForm(label_suffix='')

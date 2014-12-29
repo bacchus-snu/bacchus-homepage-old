@@ -161,10 +161,9 @@ LOGGING = {
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
-EMAIL_USE_TLS = True
+EMAIL_USE_SSL = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'work@bacchus.snucse.org'
-EMAIL_HOST_PASSWORD = ''
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'archive@bacchus.snucse.org'
+EMAIL_HOST_PASSWORD = '988d0ee361af3603736f32131e7b20a3'
 DEFAULT_FROM_EMAIL = 'work@bacchus.snucse.org'
-DEFAULT_TO_EMAIL = 'work@bacchus.snucse.org'
