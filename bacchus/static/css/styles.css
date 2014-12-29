@@ -2049,7 +2049,8 @@ body.body_qna_account a#qna_account {
 	text-indent: 1em;
 }
 
-#ServicePrinter
+#ServicePrinter ol,
+#ServicePrinter ul,
 #ServiceTerm ol,
 #ServiceTerm ul,
 #ServiceAccount ul, 
