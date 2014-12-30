@@ -2001,7 +2001,9 @@ body.body_qna a#qna,
 body.body_qna_server a#qna,
 body.body_qna_lab a#qna,
 body.body_qna_printer a#qna,
-body.body_qna_account a#qna {
+body.body_qna_account a#qna,
+body.body_application a#application,
+body.body_application_program a#application {
 	color: white;
 }
 
@@ -2014,7 +2016,9 @@ body.body_qna a#qna span,
 body.body_qna_server a#qna span,
 body.body_qna_lab a#qna span,
 body.body_qna_printer a#qna span,
-body.body_qna_account a#qna span {
+body.body_qna_account a#qna span,
+body.body_application a#application span,
+body.body_application_program a#application span {
 	color: #aaa;
 }
 
@@ -2029,7 +2033,8 @@ body.body_services_community a#services_community,
 body.body_qna_server a#qna_server,
 body.body_qna_lab a#qna_lab,
 body.body_qna_printer a#qna_printer,
-body.body_qna_account a#qna_account {
+body.body_qna_account a#qna_account,
+body.body_application_program a#application_program {
 	color: white;
 }
 
