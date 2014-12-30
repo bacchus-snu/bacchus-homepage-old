@@ -9,6 +9,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.conf import settings
 from django.core.mail import send_mail
+import re
 
 # project
 from homepage.models import *
@@ -166,7 +167,7 @@ def board_write(request, board_name):
                         email = form.cleaned_data['email'],
                         homepage = form.cleaned_data['homepage'])
             article.save()
-            subject = u"[{0}] {1}".format(article.board.name, article.title[0:15])
+            subject = u"[{0}] {1}".format(article.board.name, re.split('\r|\n', article.title)[0][0:15])
             content = u"Content : {0}".format(article.content)
             user = u"User :\n\tuser_id : {0}\n\tusername : {1}\n\tbs_year : {2}\n\temail : {3}\n\thomepage : {4}".format(article.user_id, article.username, article.bs_year, article.email, article.homepage)
             article_url = "{0}/show/{1}".format("/".join(request.build_absolute_uri().split('/')[:-3]), str(article.id))
@@ -237,7 +238,7 @@ def article_show(request, article_id):
 
             article.comment_count += 1
             article.save()
-            subject = u"[{0}] {1} - new comment : {2}".format(article.board.name, article.title[0:10], comment.content[0:10])
+            subject = u"[{0}] {1} - new comment : {2}".format(article.board.name, re.split('\r|\n', article.title)[0][0:10], re.split('\r|\n', comment.content)[0][0:10])
             content = u"Content : {0}".format(article.content)
             user = u"User :\n\tuser_id : {0}\n\tusername : {1}\n\tbs_year : {2}\n\temail : {3}\n\thomepage : {4}".format(article.user_id, article.username, article.bs_year, article.email, article.homepage)
             comment_content = u"New Comment : {0}".format(comment.content)
