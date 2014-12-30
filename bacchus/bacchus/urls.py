@@ -35,6 +35,7 @@ urlpatterns = patterns('',
 	(r'^board/([A-Za-z0-9_]+)/$', board_list),
 	(r'^board/([A-Za-z0-9_]+)/(\d+)/$', board_list),
 	(r'^board/([A-Za-z0-9_]+)/write/$', board_write),
+	(r'^application/db/$', home),
 	(r'^application/program/$', application_program_view),
 	(r'^application/program/(\d+)/$', application_program_pagination_view),
     # Examples:
