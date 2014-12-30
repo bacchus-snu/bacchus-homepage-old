@@ -61,8 +61,6 @@ class Oauth:
         self.oauth_signature_method = 'HMAC-SHA1'
         self.oauth_version = '1.0'
         self.consumer = oauth.Consumer(self.oauth_consumer_key, self.oauth_consumer_secret)
-        self.request_token = None
-        self.access_token = None
 
     def get_request_token(self):
         oauth_timestamp = str(int(time.time()))
@@ -86,35 +84,44 @@ class Oauth:
             'oauth_version' : self.oauth_version,
             'oauth_signature' : oauth_signature
             })
-        self.client = oauth.Client(self.consumer)
-        response, content = self.client.request(self.request_token_url, 'POST', params)
+        client = oauth.Client(self.consumer)
+        response, content = client.request(self.request_token_url, 'POST', params)
         print("Requested : {0}".format(self.request_token_url))
         print("Response : {0}".format(response))
         print("Content : {0}".format(content))
         parsed_content = dict(cgi.parse_qsl(content))
         oauth_token = parsed_content['oauth_token']
         oauth_token_secret = parsed_content['oauth_token_secret']
-        self.request_token = oauth.Token(oauth_token, oauth_token_secret)
-        return "{0}?oauth_token={1}".format(self.authorize_url, oauth_token)
+        request_token = oauth.Token(oauth_token, oauth_token_secret)
+        return request_token
 
-    def get_access_token(self, oauth_verifier):
-        if self.request_token is not None:
-            self.request_token.set_verifier(oauth_verifier)
-            self.client = oauth.Client(self.consumer, self.request_token)
-            response, content = self.client.request(self.access_token_url, 'POST')
-            print("Requested : {0}".format(self.access_token_url))
-            print("Response : {0}".format(response))
-            print("Content : {0}".format(content))
-            parsed_content = dict(cgi.parse_qsl(content))
-            oauth_token = parsed_content['oauth_token']
-            oauth_token_secret = parsed_content['oauth_token_secret']
-            self.access_token = oauth.Token(oauth_token, oauth_token_secret)
+    def get_authorize_url(self, request_token):
+        if request_token is None:
+            return None
+        return "{0}?oauth_token={1}".format(self.authorize_url, request_token.key)
 
-    def get_bs_class_year(self):
-        if self.access_token is None:
+    def get_access_token(self, request_token, oauth_verifier):
+        if request_token is None:
+            return None
+        elif oauth_verifier is None:
+            return None
+        request_token.set_verifier(oauth_verifier)
+        client = oauth.Client(self.consumer, request_token)
+        response, content = client.request(self.access_token_url, 'POST')
+        print("Requested : {0}".format(self.access_token_url))
+        print("Response : {0}".format(response))
+        print("Content : {0}".format(content))
+        parsed_content = dict(cgi.parse_qsl(content))
+        oauth_token = parsed_content['oauth_token']
+        oauth_token_secret = parsed_content['oauth_token_secret']
+        access_token = oauth.Token(oauth_token, oauth_token_secret)
+        return access_token
+
+    def get_bs_class_year(self, access_token):
+        if access_token is None:
             return None, None, None
-        self.client = oauth.Client(self.consumer, self.access_token)
-        response, content = self.client.request(self.user_bs_class_year_url, 'POST')
+        client = oauth.Client(self.consumer, access_token)
+        response, content = client.request(self.user_bs_class_year_url, 'POST')
         print("Requested : {0}".format(self.user_bs_class_year_url))
         print("Response : {0}".format(response))
         print("Content : {0}".format(content))

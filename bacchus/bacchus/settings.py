@@ -160,6 +160,7 @@ LOGGING = {
 }
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 
 EMAIL_USE_SSL = True
 EMAIL_HOST = 'smtp.gmail.com'

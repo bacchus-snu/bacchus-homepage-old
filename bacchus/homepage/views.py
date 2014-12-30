@@ -22,10 +22,8 @@ from oauth import Oauth
 def home(request):
     if request.method == 'GET':
         oauth_verifier = request.GET.get('oauth_verifier')
-        if oauth_verifier is not None:
-            Oauth.Instance().get_access_token(oauth_verifier)
-    print(Oauth.Instance().get_bs_class_year())
-    username, user_id, bs_year = Oauth.Instance().get_bs_class_year()
+        request.session['access_token'] = Oauth.Instance().get_access_token(request.session.get('request_token'), oauth_verifier)
+    username, user_id, bs_year = Oauth.Instance().get_bs_class_year(request.session.get('access_token'))
     if is_bacchus(user_id):
         return HttpResponseRedirect('/board/home/')
     board = Board.objects.get(name='home')
@@ -39,7 +37,7 @@ def home(request):
         return render_to_response('home.html', variables)
 
 def home_pagination_view(request, page_number):
-    username, user_id, bs_year = Oauth.Instance().get_bs_class_year()
+    username, user_id, bs_year = Oauth.Instance().get_bs_class_year(request.session.get('access_token'))
     if is_bacchus(user_id):
         return HttpResponseRedirect('/board/home/%s/' % page_number)
     return HttpResponseRedirect('/home/')
@@ -51,32 +49,32 @@ def notice_pagination_view(request, page_number):
     return HttpResponseRedirect('/board/notice/%s/' % page_number)
 
 def about(request):
-    username, user_id, bs_year = Oauth.Instance().get_bs_class_year()
+    username, user_id, bs_year = Oauth.Instance().get_bs_class_year(request.session.get('access_token'))
     return render_to_response('about.html', RequestContext(request, {'username':username}))
 
 # services
 def service_term(request):
-    username, user_id, bs_year = Oauth.Instance().get_bs_class_year()
+    username, user_id, bs_year = Oauth.Instance().get_bs_class_year(request.session.get('access_token'))
     return render_to_response('services_terms.html', RequestContext(request, {'username':username}))
 
 def service_account(request):
-    username, user_id, bs_year = Oauth.Instance().get_bs_class_year()
+    username, user_id, bs_year = Oauth.Instance().get_bs_class_year(request.session.get('access_token'))
     return render_to_response('services_account.html', RequestContext(request, {'username':username}))
 
 def service_server(request):
-    username, user_id, bs_year = Oauth.Instance().get_bs_class_year()
+    username, user_id, bs_year = Oauth.Instance().get_bs_class_year(request.session.get('access_token'))
     return render_to_response('services_server.html', RequestContext(request, {'username':username}))
 
 def service_lab(request):
-    username, user_id, bs_year = Oauth.Instance().get_bs_class_year()
+    username, user_id, bs_year = Oauth.Instance().get_bs_class_year(request.session.get('access_token'))
     return render_to_response('services_lab.html', RequestContext(request, {'username':username}))
 
 def service_printer(request):
-    username, user_id, bs_year = Oauth.Instance().get_bs_class_year()
+    username, user_id, bs_year = Oauth.Instance().get_bs_class_year(request.session.get('access_token'))
     return render_to_response('services_printer.html', RequestContext(request, {'username':username}))
 
 def service_community(request):
-    username, user_id, bs_year = Oauth.Instance().get_bs_class_year()
+    username, user_id, bs_year = Oauth.Instance().get_bs_class_year(request.session.get('access_token'))
     return render_to_response('services_community.html', RequestContext(request, {'username':username}))
 
 # faq
@@ -115,17 +113,18 @@ def qna_account_pagination_view(request, page_number):
     return HttpResponseRedirect('/board/qna_account/%s/' % page_number)
 
 def login_view(request):
-    authorize_url = Oauth.Instance().get_request_token()
+    request.session['request_token'] = Oauth.Instance().get_request_token()
+    authorize_url = Oauth.Instance().get_authorize_url(request.session.get('request_token'))
     return HttpResponseRedirect(authorize_url)
 
 def logout_view(request):
-    Oauth.Instance().request_token = None
-    Oauth.Instance().access_token = None
+    del request.session['request_token']
+    del request.session['access_token']
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 # board 
 def board_write(request, board_name):
-    username, user_id, bs_year = Oauth.Instance().get_bs_class_year()
+    username, user_id, bs_year = Oauth.Instance().get_bs_class_year(request.session.get('access_token'))
     # 특정 게시판은 바쿠스만 글쓰게
     if board_name == 'home' or board_name == 'notice' or board_name == 'faq':
         if is_bacchus(user_id) == False:
@@ -185,7 +184,7 @@ def board_write(request, board_name):
     return render_to_response('board_write.html', variables)
 
 def board_list(request, board_name, page_number=1):
-    username, user_id, bs_year = Oauth.Instance().get_bs_class_year()
+    username, user_id, bs_year = Oauth.Instance().get_bs_class_year(request.session.get('access_token'))
     if board_name == 'home' and not is_bacchus(user_id):
         return HttpResponseRedirect('/home')
     page_number = int(page_number)
@@ -215,7 +214,7 @@ def article_show(request, article_id):
 
     article.read_count += 1
     article.save()
-    username, user_id, bs_year = Oauth.Instance().get_bs_class_year()
+    username, user_id, bs_year = Oauth.Instance().get_bs_class_year(request.session.get('access_token'))
 
     if request.method == 'POST':
         if username is None:
@@ -265,7 +264,7 @@ def article_show(request, article_id):
 def article_remove(request, article_id):
     article = Article.objects.get(id=article_id)
     board = article.board
-    username, user_id, bs_year = Oauth.Instance().get_bs_class_year()
+    username, user_id, bs_year = Oauth.Instance().get_bs_class_year(request.session.get('access_token'))
 
     if request.method == 'POST':
         if article.user_id is not None and article.user_id != '':
