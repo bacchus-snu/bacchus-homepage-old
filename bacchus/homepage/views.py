@@ -174,8 +174,7 @@ def board_write(request, board_name):
             link = u"Link : {0}".format(article_url)
             message = u"{0}\n\n{1}\n\n{2}".format(content, user, link)
             send_mail(subject, message, settings.EMAIL_HOST_USER, [settings.DEFAULT_FROM_EMAIL], fail_silently = False)
-            # 글을 쓰고 보내기 때문에 board_list의 마지막 parameter를 1로 보냄.
-            return board_list(request, board.name, 1)
+            return HttpResponseRedirect('/board/{0}/'.format(board.name))
     else:
         if username is None and board_name == 'qna_account':
             form = AccountArticleWriteForm(label_suffix='')
