@@ -4,10 +4,7 @@ import os
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
-ALLOWED_HOSTS = [
-        '.snucse.org',
-        '.snu.ac.kr',
-        ]
+ALLOWED_HOSTS = '*'
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -176,3 +173,6 @@ EMAIL_HOST_USER = 'archive@bacchus.snucse.org'
 with open('/etc/email_host_password.txt') as f:
     EMAIL_HOST_PASSWORD = f.read().strip()
 DEFAULT_FROM_EMAIL = 'work@bacchus.snucse.org'
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
