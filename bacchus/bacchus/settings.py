@@ -1,22 +1,28 @@
 # Django settings for bacchus project.
 import os
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
+
+ALLOWED_HOSTS = [
+        '.snucse.org',
+        '.snu.ac.kr',
+        ]
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
 
 MANAGERS = ADMINS
-
+with open('/etc/django_postgresql_password.txt') as f:
+    DJANGO_POSTGRESQL_PASSWORD = f.read().strip()
 DATABASES = {
     'default': {
 #        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'homepage',                      # Or path to database file if using sqlite3.
         'USER': 'homepage',                      # Not used with sqlite3.
-        'PASSWORD': 'aaj6o16jOi!UIO$',                  # Not used with sqlite3.
+        'PASSWORD': DJANGO_POSTGRESQL_PASSWORD,                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
@@ -84,7 +90,8 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = '2=flt4t4z4je#lg!0@3pe6$5vcci&amp;nod52sbnj^rowq@o^ml#y'
+with open('/etc/secret_key.txt') as f:
+    SECRET_KEY = f.read().strip()
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -166,5 +173,6 @@ EMAIL_USE_SSL = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 465
 EMAIL_HOST_USER = 'archive@bacchus.snucse.org'
-EMAIL_HOST_PASSWORD = '988d0ee361af3603736f32131e7b20a3'
+with open('/etc/email_host_password.txt') as f:
+    EMAIL_HOST_PASSWORD = f.read().strip()
 DEFAULT_FROM_EMAIL = 'work@bacchus.snucse.org'
