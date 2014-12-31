@@ -57,7 +57,7 @@ class Oauth:
         self.user_bs_class_year_url = "https://www.snucse.org/app/1/user/bsclassyear.json"
         self.oauth_consumer_secret = '6925671658e1e7369d532b-2b69-40fe-aa5e-68863a224882'
         self.oauth_consumer_key = '410172'
-        self.oauth_callback = 'http://dew.snucse.org:9999'
+        self.oauth_callback = 'https://bacchus.snucse.org'
         self.oauth_signature_method = 'HMAC-SHA1'
         self.oauth_version = '1.0'
         self.consumer = oauth.Consumer(self.oauth_consumer_key, self.oauth_consumer_secret)
