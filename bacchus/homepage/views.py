@@ -299,7 +299,7 @@ def article_remove(request, article_id):
 
 def is_bacchus(user_id):
     bacchus = ["jsryu21", "y975y9200", "wookayin", "shuin318", "littlechun4", "kqqk1234", "gwolves", "holys0210", \
-	"kcm1700", "bert1234", "vs223", "a9413", "veckal", "sunbi9339"]
+	"kcm1700", "bert1234", "vs223", "a9413", "veckal", "sunbi9339", "snucse"]
     return user_id in bacchus 
 
 # application_program 
