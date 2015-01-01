@@ -37,7 +37,7 @@
 				</li>
 			{% endfor %}
 			</ul>
-
+			{% if username %}
 			<h3 class="comments_head">댓글 남기기</h3>
 			<p class="comment_info">*표가 있는 부분은 필수입니다.</p>
 												
@@ -51,8 +51,7 @@
 				</p>
 
 			</form>	
-
-
+			{% endif %}
 		</div>
 	</div>
 </div>
