@@ -250,7 +250,7 @@ def article_show(request, article_id):
     else:
         form = CommentWriteForm(label_suffix='')
 
-    comments = Comment.objects.filter(article = article)
+    comments = Comment.objects.filter(article = article).order_by('id')
 
     variables = RequestContext(request, {
         'board': board,
