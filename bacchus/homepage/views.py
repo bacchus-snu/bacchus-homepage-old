@@ -22,7 +22,8 @@ from oauth import Oauth
 def home(request):
     if request.method == 'GET':
         oauth_verifier = request.GET.get('oauth_verifier')
-        request.session['access_token'] = Oauth.Instance().get_access_token(request.session.get('request_token'), oauth_verifier)
+        if oauth_verifier is not None:
+            request.session['access_token'] = Oauth.Instance().get_access_token(request.session.get('request_token'), oauth_verifier)
     username, user_id, bs_year = Oauth.Instance().get_bs_class_year(request.session.get('access_token'))
     if is_bacchus(user_id):
         return HttpResponseRedirect('/board/home/')
