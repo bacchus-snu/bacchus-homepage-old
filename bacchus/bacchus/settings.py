@@ -1,7 +1,7 @@
 # Django settings for bacchus project.
 import os
 
-DEBUG = False 
+DEBUG = False
 #TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = '*'

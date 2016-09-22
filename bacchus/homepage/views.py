@@ -10,6 +10,7 @@ from django.template import RequestContext
 from django.conf import settings
 from django.core.mail import send_mail
 import re
+import json
 
 # project
 from homepage.models import *
@@ -51,7 +52,12 @@ def notice_pagination_view(request, page_number):
 
 def about(request):
     username, user_id, bs_year = Oauth.Instance().get_bs_class_year(request.session.get('access_token'))
-    return render_to_response('about.html', RequestContext(request, {'username':username}))
+    #return HttpResponseRedirect('/home')
+    memberinfo = MemberInfo.objects.order_by('-hakbun')
+    historylist = []
+    for m in memberinfo:
+        historylist.append(json.loads(m.history))
+    return render_to_response('about.html', RequestContext(request, {'username':username,'MemberInfo':memberinfo, 'HistoryList':historylist}))
 
 # services
 def service_term(request):

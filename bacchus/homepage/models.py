@@ -4,6 +4,23 @@ from django.contrib.auth.hashers import make_password, check_password
 
 from homepage.const import *
 
+import json
+
+class MemberInfo(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=20)
+    hakbun = models.IntegerField()
+    email = models.CharField(max_length=200)
+    group = models.IntegerField()
+    history = models.CharField(max_length=1000)
+
+    def get_history(self):
+        return json.loads(self.history)
+    def set_history(self, his):
+        self.history = json.dumps(his)
+    def __unicode__(self):
+        return self.name
+
 class Member(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=16)
