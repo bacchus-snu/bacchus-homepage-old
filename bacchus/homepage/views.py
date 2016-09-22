@@ -20,6 +20,19 @@ import homepage.boards
 
 from oauth import Oauth
 
+def modelinput(request):
+    f = open('output.txt', 'r')
+    content = f.read()#.decode('utf-8')
+    f.close()
+    return HttpResponse(content) # Test Line!
+    lines = content.split('\n')
+    for line in lines:
+        if '$$' not in line: continue
+        group, hakbun, name, email, history = line.split('$$')
+        member = MemberInfo(group=int(group), hakbun=int(hakbun), email=email, history=history, name=name)
+        member.save()
+    return HttpResponse('Well done!')
+
 def home(request):
     if request.method == 'GET':
         oauth_verifier = request.GET.get('oauth_verifier')
