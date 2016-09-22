@@ -14,10 +14,10 @@ class MemberInfo(models.Model):
     group = models.IntegerField()
     history = models.CharField(max_length=1000)
 
-    def get_history(self):
-        return json.loads(self.history)
-    def set_history(self, his):
-        self.history = json.dumps(his)
+
+
+
+
     def __unicode__(self):
         return self.name
 
