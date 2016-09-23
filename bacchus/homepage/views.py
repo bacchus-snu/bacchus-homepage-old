@@ -20,19 +20,6 @@ import homepage.boards
 
 from oauth import Oauth
 
-def modelinput(request):
-    f = open('output.txt', 'r')
-    content = f.read()#.decode('utf-8')
-    f.close()
-    return HttpResponse(content) # Test Line!
-    lines = content.split('\n')
-    for line in lines:
-        if '$$' not in line: continue
-        group, hakbun, name, email, history = line.split('$$')
-        member = MemberInfo(group=int(group), hakbun=int(hakbun), email=email, history=history, name=name)
-        member.save()
-    return HttpResponse('Well done!')
-
 def home(request):
     if request.method == 'GET':
         oauth_verifier = request.GET.get('oauth_verifier')
@@ -65,11 +52,23 @@ def notice_pagination_view(request, page_number):
 
 def about(request):
     username, user_id, bs_year = Oauth.Instance().get_bs_class_year(request.session.get('access_token'))
-    #return HttpResponseRedirect('/home')
-    memberinfo = MemberInfo.objects.order_by('-hakbun')
+    f = open('members.txt', 'rb')
+    content = f.read().decode('utf-8')
+    lines = content.split('\n')
+    memberinfo = []
+    tmemberinfo = {}
     historylist = []
-    for m in memberinfo:
-        historylist.append(json.loads(m.history))
+    for line in lines:
+        if '$$' not in line: continue
+        info = line.split('$$')
+        tmemberinfo = {}
+        tmemberinfo['group'] = int(info[0])
+        tmemberinfo['hakbun'] = int(info[1])
+        tmemberinfo['name'] = info[2]
+        tmemberinfo['email'] = info[3]
+        tmemberinfo['history'] = info[4]
+        historylist.append(json.loads(info[4]))
+        memberinfo.append(tmemberinfo)
     return render_to_response('about.html', RequestContext(request, {'username':username,'MemberInfo':memberinfo, 'HistoryList':historylist}))
 
 # services
